@@ -1,0 +1,257 @@
+{% load static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="author" content=""/>
+    <!-- Document Title -->
+    <title>{% block title %}基础页面{% endblock %}</title>
+
+    <!-- StyleSheets -->
+    <link rel="stylesheet" href="{% static 'library/css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'library/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'library/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'library/css/icomoon.css' %}">
+    <link rel="stylesheet" href="{% static 'library/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'library/css/color-1.css' %}">
+    <link rel="stylesheet" href="{% static 'library/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'library/css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'library/css/transition.css' %}">
+
+    <!-- Online Lib -->
+    <link rel="stylesheet" href="{% static 'library/css/tether.min.css' %}">
+    <script src="{% static 'library/js/tether.min.js' %}"></script>
+
+    <!-- Switcher CSS -->
+    <link href="{% static 'library/switcher/switcher.css' %}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" id="skins" href="{% static 'library/css/default.css' %}" type="text/css" media="all">
+
+    <!-- FontsOnline -->
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:300,300italic,400italic,400,700,700italic,900,900italic'
+          rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic,900italic,900,100italic,100'
+          rel='stylesheet' type='text/css'>
+
+    {% block customcss %}
+    {% endblock %}
+
+    <!-- JavaScripts -->
+    <script src="{% static 'library/js/vendor/modernizr.js' %}"></script>
+</head>
+<body>
+
+<!-- Preloader -->
+<div id="status">
+    <div id="preloader">
+        <div class="preloader position-center-center">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+<!-- Preloader -->
+
+<!-- Wrapper -->
+<div class="wrapper push-wrapper">
+
+    <!-- Header -->
+    <header id="header">
+
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="container">
+
+                <!-- Online Option -->
+                <div class="online-option">
+                    <a href="{% url 'library:index' %}"><span style="color: white; font-size: 30px;">图书管理系统</span></a>
+                </div>
+                <!-- Online Option -->
+
+                <!-- Social Icons -->
+{#                <div class="social-icons pull-right">#}
+{#                    <ul>#}
+{#                        <li><a class="fa fa-facebook" href="#"></a></li>#}
+{#                        <li><a class="fa fa-twitter" href="#"></a></li>#}
+{#                        <li><a class="fa fa-google-plus" href="#"></a></li>#}
+{#                        <li><a class="fa fa-pinterest-p" href="#"></a></li>#}
+{#                    </ul>#}
+{#                </div>#}
+                <!-- Social Icons -->
+
+                <!-- Cart Option -->
+                <div class="cart-option">
+                    <ul style="padding-top: 15px;">
+                        {% if request.user.is_authenticated %}
+                            <li><a href="{% url 'library:my_book' %}"><i class="fa fa-user"></i>{{ request.user.username }}</a></li>
+                            <li><a href="{% url 'users:logout' %}"><i class="fa fa-lock"></i>退出登录</a></li>
+                        {% else %}
+                            <li><a href="#" data-toggle="modal" data-target="#register-modal"><i class="fa fa-user"></i>Login /Register</a></li>
+                        {% endif %}
+
+
+                    </ul>
+                </div>
+                <!-- Cart Option -->
+
+            </div>
+        </div>
+        <!-- Top Bar -->
+
+    </header>
+    <!-- Header -->
+
+    {% block content %}
+
+    {% endblock %}
+
+    <!-- Footer -->
+    <footer id="footer">
+
+        <!-- Sub Footer -->
+        <div class="sub-foorer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>Copyright <i class="fa fa-copyright"></i> 2005-2016 <span
+                                class="theme-color">FineLayers</span> All Rights Reserved.</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <a class="back-top" href="#">Back to Top<i class="fa fa-caret-up"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Sub Footer -->
+
+    </footer>
+    <!-- Footer -->
+
+</div>
+<!-- Wrapper -->
+
+<!-- Register Modal -->
+<div class="modal fade login-modal" id="register-modal" role="dialog">
+    <div class="position-center-center" role="document">
+        <div class="modal-content">
+            <strong>LOGIN</strong>
+            <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <form class="sending-form" action="{% url 'users:login' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input class="form-control" type="text" required="required" placeholder="用户名" name="username">
+                    <i class="fa fa-user"></i>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" required="required" placeholder="密码" name="password" >
+                    <i class="fa fa-lock"></i>
+                </div>
+                <p class="terms">未注册用户则自动注册后登录</p>
+                <button class="btn-1 shadow-0 full-width" type="submit">登录</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Login Modal -->
+
+<!-- Quick View -->
+<div class="modal fade quick-view" id="quick-view" role="dialog">
+    <div class="position-center-center" role="document">
+        <div class="modal-content">
+            <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="single-product-detail">
+                <div class="row">
+
+                    <!-- Product Thumnbnail -->
+                    <div class="col-sm-5">
+                        <div class="product-thumnbnail">
+                            <img src="images/qiuck-view/img-01.jpg" alt="">
+                        </div>
+                    </div>
+                    <!-- Product Thumnbnail -->
+
+                    <!-- Product Detail -->
+                    <div class="col-sm-7">
+                        <div class="single-product-detail">
+                            <span class="availability">Availability :<strong>Stock<i class="fa fa-check-circle"></i></strong></span>
+                            <h3>Land the Earth Beach</h3>
+                            <ul class="rating-stars">
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star-half-o"></i></li>
+                                <li>1 customer review</li>
+                            </ul>
+                            <div class="prics"><del class="was">$32.00</del><span class="now">$30.99</span></div>
+                            <h4>Overview</h4>
+                            <p>With this highly anticipated new novel, the author of the bestselling Life of Pi returns to the storytelling power and luminous wisdom of his master novel. The High Mountains of Portugal.</p>
+                            <div class="quantity-box">
+                                <label>Qty :</label>
+                                <div class="sp-quantity">
+                                    <div class="sp-minus fff"><a class="ddd" data-multi="-1">-</a></div>
+                                    <div class="sp-input">
+                                        <input type="text" class="quntity-input" value="1" />
+                                    </div>
+                                    <div class="sp-plus fff"><a class="ddd" data-multi="1">+</a></div>
+                                </div>
+                            </div>
+                            <ul class="btn-list">
+                                <li><a class="btn-1 sm shadow-0 " href="#">add to cart</a></li>
+                                <li><a class="btn-1 sm shadow-0 blank" href="#"><i class="fa fa-heart"></i></a></li>
+                                <li><a class="btn-1 sm shadow-0 blank" href="#"><i class="fa fa-repeat"></i></a></li>
+                                <li><a class="btn-1 sm shadow-0 blank" href="#"><i class="fa fa-share-alt"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Product Detail -->
+
+                </div>
+            </div>
+            <!-- Single Product Detail -->
+
+        </div>
+    </div>
+</div>
+<!-- Quick View -->
+
+
+
+
+
+
+
+<script src="{% static 'library/js/vendor/jquery.js' %}"></script>
+<script src="{% static 'library/js/vendor/bootstrap.min.js' %}"></script>
+<script src="http://ditu.google.cn/maps/api/js?sensor=false"></script>
+<script src="{% static 'library/js/gmap3.min.js' %}"></script>
+<script src="{% static 'library/js/datepicker.js' %}"></script>
+<script src="{% static 'library/js/contact-form.js' %}"></script>
+<script src="{% static 'library/js/bigslide.js' %}"></script>
+<script src="{% static 'library/js/3d-book-showcase.js' %}"></script>
+<script src="{% static 'library/js/turn.js' %}"></script>
+<script src="{% static 'library/js/jquery-ui.js' %}"></script>
+<script src="{% static 'library/js/mcustom-scrollbar.js' %}"></script>
+<script src="{% static 'library/js/timeliner.js' %}"></script>
+<script src="{% static 'library/js/parallax.js' %}"></script>
+<script src="{% static 'library/js/countdown.js' %}"></script>
+<script src="{% static 'library/js/countTo.js' %}"></script>
+<script src="{% static 'library/js/owl-carousel.js' %}"></script>
+<script src="{% static 'library/js/bxslider.js' %}"></script>
+<script src="{% static 'library/js/appear.js' %}"></script>
+<script src="{% static 'library/js/sticky.js' %}"></script>
+<script src="{% static 'library/js/prettyPhoto.js' %}"></script>
+<script src="{% static 'library/js/isotope.pkgd.js' %}"></script>
+<script src="{% static 'library/js/wow-min.js' %}"></script>
+<script src="{% static 'library/js/classie.js' %}"></script>
+<script src="{% static 'library/js/main.js' %}"></script>
+
+<!-- Switcher JS -->
+<script type="text/javascript" src="{% static 'library/switcher/cookie.js' %}"></script>
+<script type="text/javascript" src="{% static 'library/switcher/colorswitcher.js' %}"></script>
+
+</body>
+</html>

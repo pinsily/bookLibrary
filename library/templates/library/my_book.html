@@ -1,0 +1,104 @@
+﻿{% extends 'library/base.html' %}
+
+{% block title %}图书列表{% endblock %}
+
+{% block content %}
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Shop Grid -->
+        <div class="product-grid-holder tc-padding">
+            <div class="container">
+                <div class="row">
+
+                    <!-- Content -->
+                    <div class="col-lg-9 col-md-8 pull-right pull-none">
+
+                        <!-- Products -->
+                        <div class="row">
+                            {% for record in record_list %}
+                                <div class="col-lg-4 col-xs-6 r-full-width">
+                                    <a href="{% url 'library:detail' record.book.id %}">
+                                        <div class="product-box">
+                                            <div class="product-img">
+                                                <img src="{{ record.book.cover_img.url }}" alt="{{ record.book.name }}"/>
+
+                                            </div>
+                                            <div class="product-detail">
+                                                <span>Novel</span>
+                                                <h5>{{ record.book.name }}</h5>
+                                                <p>{{ record.book.desc | truncatechars:15 }}......</p>
+                                                <div class="rating-nd-price">
+                                                    <strong>{{ record.book.score }}</strong>
+                                                    <ul class="rating-stars">
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star-half-o"></i></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                            {% endfor %}
+                        </div>
+                        <!-- Products -->
+
+                        <!-- Pagination -->
+                        <div class="pagination-holder">
+                            <ul class="pagination">
+                                {% if record_list.has_previous %}
+                                    <li><a href="?page={{ record_list.previous_page_number }}"
+                                           aria-label="Previous">Prev</a></li>
+                                {% else %}
+                                    <li><a class="disabled" href="#"
+                                           aria-label="Previous">Prev</a></li>
+                                {% endif %}
+
+                                {% for page_num in pages.page_range_ex %}
+
+                                    {% if page == '...' %}
+                                        <li><span>...</span></li>
+                                    {% elif page_num == record_list.number %}
+                                        <li class="active"><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                                    {% else %}
+                                        <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                                    {% endif %}
+
+                                {% endfor %}
+                                {% if record_list.has_next %}
+                                    <li><a href="?page={{ record_list.next_page_number }}" aria-label="Next">Next</a></li>
+                                {% else %}
+                                    <li><a class="disabled" href="#" aria-label="Next">Next</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <!-- Pagination -->
+
+                    </div>
+                    <!-- Content -->
+
+                    <!-- Aside -->
+                    <aside class="col-lg-3 col-md-4 pull-left pull-none">
+
+                        <!-- Aside Widget -->
+                        <div class="aside-widget">
+                            <h6>我的借阅</h6>
+                        </div>
+                        <!-- Aside Widget -->
+
+                    </aside>
+                    <!-- Aside -->
+
+                </div>
+            </div>
+        </div>
+        <!-- Shop Grid -->
+
+    </main>
+    <!-- Main Content -->
+{% endblock %}

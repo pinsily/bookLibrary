@@ -1,0 +1,165 @@
+﻿{% extends 'library/base.html' %}
+
+{% block title %}详情页{% endblock %}
+
+{% block content %}
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Book Detail -->
+        <div class="book-detail" style="margin-top: 40px;">
+            <div class="container">
+
+                <!-- Single Book Detail -->
+                <div class="single-boook-detail">
+                    <div class="row">
+
+                        <!-- Book Thumnbnail -->
+                        <div class="col-lg-4 col-md-5">
+                            <div class="product-thumnbnail">
+                                <ul class="product-slider">
+                                    <li>
+                                        <img src="{{ book.cover_img.url }}" alt="">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Book Thumnbnail -->
+
+                        <!-- book Detail -->
+                        <div class="col-lg-8 col-md-7">
+                            <div class="single-product-detail">
+                                <span class="availability">Availability :<strong>Stock<i class="fa fa-check-circle"></i></strong></span>
+                                <h3>{{ book.name }} </h3>
+                                <ul class="rating-stars">
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star-half-o"></i></li>
+                                    <li>{{ book.review | default:1 }} customer review</li>
+                                </ul>
+                                <h4>Overview</h4>
+                                <p>{{ book.desc }}</p>
+
+                                <ul class="btn-list">
+                                    {% if is_borrow %}
+                                    <li><a class="btn-1 sm shadow-0 " href="{% url 'library:return_book' book.id %}">还书</a></li>
+                                    {% else %}
+                                        <li><a class="btn-1 sm shadow-0 " href="{% url 'library:borrow_book' book.id %}">借书</a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- book Detail -->
+
+                    </div>
+                </div>
+                <!-- Single Book Detail -->
+
+                <!-- Disc Nd Description -->
+                <div class="disc-nd-Description tc-padding-bottom">
+                    <div class="row">
+                        <div id="disc-reviews-tabs" class="disc-reviews-tabs">
+
+                            <!-- Tabs Nav -->
+                            <div class="col-sm-3">
+                                <div class="tabs-nav">
+                                    <ul>
+                                        <li><a href="#tab-2">书籍信息</a></li>
+                                        <li><a href="#tab-3">作者介绍</a></li>
+                                        <li><a href="#tab-4">相关推荐</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Tabs Nav -->
+
+                            <!-- Tabs Content -->
+                            <div class="col-sm-9">
+                                <div class="tabs-content">
+
+                                    <!-- Book Info List -->
+                                    <h4 id="tab-2" style="color: #ff851d;font-weight: bold;font-size: 18px;margin: 0 0 20px;">书籍信息</h4>
+                                    <div style="margin-bottom: 30px;">
+                                        <div class="book-info-list">
+                                            <ul>
+                                                <li><span>ISBN码: </span>{{ book.isbn }}</li>
+                                                <li><span>作者: </span>{{ book.author.name }}</li>
+                                                <li><span>出版时间: </span>{{ book.publish_time }}</li>
+                                                <li><span>库存: </span>{{ book.stock | default:0 }}</li>
+                                                <li><span>类目: </span>{{ book.category.name }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- Book Info List -->
+
+                                    {% if book.author %}
+                                        <h4 id="tab-3" style="color: #ff851d;font-weight: bold;font-size: 18px;margin: 0 0 20px;">作者介绍</h4>
+                                        <div class="description" style="margin-bottom: 30px;">
+                                        <p>{{ book.author.desc }}</p>
+                                        </div>
+                                    {% endif %}
+
+
+
+                                    {% if cate_books %}
+                                    <!-- Description & Products -->
+                                    <h4 id="tab-4" style="color: #ff851d;font-weight: bold;font-size: 18px;margin: 0 0 30px;">相关推荐</h4>
+
+                                    <!-- Related Products -->
+
+                                    <div class="related-products">
+                                        <div class="related-produst-slider">
+                                            {% for cate_book in cate_books %}
+                                            <div class="item">
+                                                <div class="product-box">
+                                                    <div class="product-img">
+                                                        <img src="{{ cate_book.cover_img.url }}" alt="">
+{#                                                        <ul class="product-cart-option position-center-x">#}
+{#                                                            <li><a href="#"><i class="fa fa-eye"></i></a></li>#}
+{#                                                            <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>#}
+{#                                                            <li><a href="#"><i class="fa fa-share-alt"></i></a></li>#}
+{#                                                        </ul>#}
+                                                    </div>
+                                                    <div class="product-detail">
+                                                        <span>Novel</span>
+                                                        <h5>{{ cate_book.name }}</h5>
+                                                        <p>{{ cate_book.desc | truncatechars:15 }}......</p>
+                                                        <div class="rating-nd-price">
+                                                            <strong>{{ cate_book.score }}</strong>
+                                                            <ul class="rating-stars">
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star-half-o"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                    <!-- Related Products -->
+
+
+                                    <!-- Description & Products -->
+
+                                </div>
+                            </div>
+                            <!-- Tabs Content -->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Disc Nd Description -->
+
+            </div>
+        </div>
+        <!-- Book Detail -->
+
+    </main>
+    <!-- Main Content -->
+{% endblock %}
