@@ -135,10 +135,10 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+STATIC_ROOT = "/static/"
 
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
-
 
 LOGGING = {
     'version': 1,
@@ -167,5 +167,3 @@ AUTH_USER_MODEL = "users.UserProfile"
 
 # login_required URL
 # LOGIN_URL = reverse('library:index')
-
-
