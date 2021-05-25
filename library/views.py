@@ -65,6 +65,10 @@ def borrow_book(request, book_id):
     should_time = datetime.datetime.now() + datetime.timedelta(days=10)
     BorrowRecord.objects.create(user=user, book=book, should_time=should_time)
 
+    # 扣减库存
+    book.stock = book.stock - 1
+    book.save()
+
     print("借书成功")
     return redirect(reverse('library:detail', kwargs={"book_id": book_id}))
 
@@ -84,6 +88,11 @@ def return_book(request, book_id):
         return redirect(reverse('library:detail', kwargs={"book_id": book_id}))
     record.is_return = 1
     record.save()
+
+    # 增加库存
+    book.stock = book.stock + 1
+    book.save()
+
     return redirect(reverse('library:detail', kwargs={"book_id": book_id}))
 
 

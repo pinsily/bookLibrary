@@ -91,7 +91,7 @@ DATABASES = {
         'NAME': 'booklibrary',
         'USER': 'root',
         'PASSWORD': 'Root20..',
-        'HOST': 'localhost',
+        'HOST': '8.142.147.137',
         'PORT': '3306',
     }
 }
@@ -138,7 +138,7 @@ STATICFILES_DIRS = (
 STATIC_ROOT = "/static/"
 
 MEDIA_URL = '/uploads/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 LOGGING = {
     'version': 1,
